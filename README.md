@@ -1,4 +1,4 @@
 # Software3
 OpenSource Assignment Software 3
 
-kkk
+https://github.com/timleland/WeatherCE
