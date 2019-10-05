@@ -33,5 +33,9 @@
     "webNavigation",
     "http://*/",
     "https://*/"
-  ]
+  ],
+  "background": {
+
+    "scripts" : ["jquery-3.3.1.min.js", "script.js"]
+  }
 }

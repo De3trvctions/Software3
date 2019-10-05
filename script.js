@@ -1,127 +1,114 @@
-var tagList = ['HTML', 'HEAD', 'BODY', 'DIV', 'SECTION']; 
+var tagList = ['HTML', 'HEAD', 'BODY', 'DIV', 'SECTION'];
 var isSpeaking = false;
-var speakRate = 0.5
+var speakRate = 1.0
 // ON DOCUMENT READY
- // FULLSCREEN ALERT
+// FULLSCREEN ALERT
 var key = 0;
 
-$(document).ready(function(){ 
-    
-// START OF
-    // MAIN PROGRAM
-    $(document).mousemove(function (e) {
-        //SELECT TARGET
-        var target = $(e.target);
-        //FOR INPUT FIELD
-        var inputtext = target.attr("placeholder");
-        if(target.prop("tagName")=="INPUT"){
-         inputtext = "Input field" + inputtext;
-        }
-        var inputmsg = new SpeechSynthesisUtterance(inputtext);
+$(document).ready(function () {
 
-        //FOR BUTTON TEXT
-        var msgtext = target.text();
-        if(target.prop("tagName")=="BUTTON"){
-           msgtext = "Button text" + msgtext;
-        }
-        if(target.prop("tagName")=="A"){
-           msgtext = "Link text" + msgtext;
-        }
-        var msg = new SpeechSynthesisUtterance(msgtext);
+    var synth = window.speechSynthesis;
 
-        //FOR ALT TEXT
-        var msgalt = target.attr("alt");
-        var msgaltnew = new SpeechSynthesisUtterance(msgalt);
+    //TO SPEAK
+    function speaker(msg) {
+        synth.speak(msg);
+    }
 
-        //FOR ARIA LABELS
-        var msglabel= target.attr('aria-label');
-        var msglabelnew = new SpeechSynthesisUtterance(msglabel);
+    // TO PAUSE
+    function pauseSpeaker() {
+        synth.pause();
+    }
+    // TO RESUME
+    function resumeSpeaker() {
+        synth.resume();
+    }
+    //TO STOP
+    function stopSpeaker() {
+        synth.cancel();
+    }
 
-        //TO SPEAK
-        function speaker()
-        {   
-            speechSynthesis.speak(msg);       
-            speechSynthesis.speak(inputmsg);     
-            speechSynthesis.speak(msgaltnew);
-            speechSynthesis.speak(msglabelnew);
-        }
-        // TO PAUSE
-        function pauseSpeaker(){
-            target.removeClass("speakText");
-            speechSynthesis.pause();
-        }
-        // TO RESUME
-        function resumeSpeaker(){
-            target.addClass("speakText");
-            speechSynthesis.resume();
-        }
-        //TO STOP
-        function stopSpeaker()
-        {
-            target.removeClass("speakText");
-            speechSynthesis.cancel();
-        }
-        //TO CHECK CLASS AND SPEAK IF CLASS IS "SPEAKTEXT"
-        function classCheck()
-        {
-            if(target.is(".speakText") ) {
-                speaker();
-                var isSpeaking=true;
-                // USE CTRL TO STOP
-                if(isSpeaking) {
-                    $(document).keyup(function(e) {
-                        if(e.key === "Control"){
-                            pauseSpeaker();
-                            var isSpeaking = false;
-                            console.log(isSpeaking);
-                        }
-                        $(document).keyup(function(e) {
-                            if(!isSpeaking){
-                            
-                                if(e.key === "Shift"){
-                                    resumeSpeaker();
-                                    var isSpeaking = true;
-                                    console.log(isSpeaking);
-                                }
-                            }
-                        });
-                   });
-                }
-                
-            }
-        } // END OF CLASSCHECK
+    function voiceChange(){
 
-        //CHECK FOR TAGS IN THE TAGLIST
-        if(tagList.indexOf(target.prop("tagName")) == -1){
-            target.addClass("speakText");
-            setTimeout(function(){
-                $(target).mouseleave(function(){
-                    stopSpeaker();  
-                });
-            },10);
-            classCheck();     
-        }
-    }); //END of MAIN PROGRAM  
+        var voices = synth.getVoices();
 
-    $(document).keydown(function(e){
-        if(e.key === 'F11')
-        {   
-            if(key===1){       // (remember that key is 0 initially)
-              // alert('FULLSCREEN OFF');
-                var fullscreentext = "Full screen off";  
+        for(i = 0; i <voices.length; i++){
+            console.log(voices[i].voiceURI);
+            console.log(voices[i].name);
+        }
+
+    }
+
+    voiceChange();
+
+
+    document.onmouseup = function () {
+
+        var target = getSelectionText();
+        var inputmsg = new SpeechSynthesisUtterance(target);
+
+        inputmsg.pitch = 2.0;
+        inputmsg.rate = 2.0;
+        inputmsg.volume = 0.3;
+
+        console.log("Input msg: " + inputmsg);
+
+        if (inputmsg != "") {
+            speaker(inputmsg);
+            isSpeaking = true;
+
+            console.log("target: " + target);
+        } else {
+            console.log("input missing");
+        }
+
+    };
+
+    $(document).keydown(function (e) {
+        if (e.key === 'F11') {
+            if (key === 1) {       // (remember that key is 0 initially)
+                // alert('FULLSCREEN OFF');
+                var fullscreentext = "Full screen off";
                 var fullscreenmsg = new SpeechSynthesisUtterance(fullscreentext);
-                speechSynthesis.speak(fullscreenmsg);
-                key=0;
+                synth.speak(fullscreenmsg);
+                key = 0;
             }
-            else{
-            var fullscreentext = "Full screen on";  
-            var fullscreenmsg = new SpeechSynthesisUtterance(fullscreentext);
-            speechSynthesis.speak(fullscreenmsg); 
-            key=1;
-            }          
+            else {
+                var fullscreentext = "Full screen on";
+                var fullscreenmsg = new SpeechSynthesisUtterance(fullscreentext);
+                synth.speak(fullscreenmsg);
+                key = 1;
+            }
+        } else if (e.key === 'Control') {
+
+            pauseSpeaker();
+            isSpeaking = false;
+        } else if (e.key === 'Shift') {
+
+            resumeSpeaker();
+            isSpeaking = true;
+        }else if(e.key === 'Alt'){
+
+            stopSpeaker();
+            isSpeaking = false;
         }
     }); // END OF FULLSCREEN ALERT 
 
 });
+
+function getSelectionText() {
+    var text = "";
+    var activeEl = document.activeElement;
+    var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
+    if (
+        (activeElTagName == "textarea") || (activeElTagName == "input" &&
+            /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
+        (typeof activeEl.selectionStart == "number")
+    ) {
+        text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
+    } else if (window.getSelection) {
+        text = window.getSelection().toString();
+    }
+    return text;
+}
 
 
