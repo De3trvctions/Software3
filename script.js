@@ -4,10 +4,9 @@ var speakRate = 1.0
 // ON DOCUMENT READY
 // FULLSCREEN ALERT
 var key = 0;
+var synth = window.speechSynthesis;
 
 $(document).ready(function () {
-
-    var synth = window.speechSynthesis;
 
     //TO SPEAK
     function speaker(msg) {
@@ -27,27 +26,13 @@ $(document).ready(function () {
         synth.cancel();
     }
 
-    function voiceChange(){
-
-        var voices = synth.getVoices();
-
-        for(i = 0; i <voices.length; i++){
-            console.log(voices[i].voiceURI);
-            console.log(voices[i].name);
-        }
-
-    }
-
-    voiceChange();
-
-
     document.onmouseup = function () {
 
         var target = getSelectionText();
         var inputmsg = new SpeechSynthesisUtterance(target);
 
-        inputmsg.pitch = 2.0;
-        inputmsg.rate = 2.0;
+        // inputmsg.pitch = 2.0;
+        // inputmsg.rate = 2.0;
         inputmsg.volume = 0.3;
 
         console.log("Input msg: " + inputmsg);
@@ -60,6 +45,8 @@ $(document).ready(function () {
         } else {
             console.log("input missing");
         }
+
+        console.log(isSpeaking);
 
     };
 
@@ -82,14 +69,17 @@ $(document).ready(function () {
 
             pauseSpeaker();
             isSpeaking = false;
+            console.log(isSpeaking);
         } else if (e.key === 'Shift') {
 
             resumeSpeaker();
             isSpeaking = true;
-        }else if(e.key === 'Alt'){
+            console.log(isSpeaking);
+        } else if (e.key === 'Alt') {
 
             stopSpeaker();
             isSpeaking = false;
+            console.log(isSpeaking);
         }
     }); // END OF FULLSCREEN ALERT 
 
@@ -110,5 +100,12 @@ function getSelectionText() {
     }
     return text;
 }
+
+function testdata(data){
+
+    console.log("Data Inside: " + data.data);
+}
+
+browser.runtime.onMessage.addListener(testdata);
 
 
