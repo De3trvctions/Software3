@@ -1,54 +1,41 @@
-var tagList = ['HTML', 'HEAD', 'BODY', 'DIV', 'SECTION'];
 var isSpeaking = false;
-var speakRate = 1.0
 // ON DOCUMENT READY
 // FULLSCREEN ALERT
 var key = 0;
+var synth = window.speechSynthesis;
+
+var volume = 0.5;
+var pitch = 1.0;
+var rate = 1.0;
+
+// TO PAUSE
+function pauseSpeaker() {
+    synth.pause();
+}
+// TO RESUME
+function resumeSpeaker() {
+    synth.resume();
+}
+//TO STOP
+function stopSpeaker() {
+    synth.cancel();
+}
 
 $(document).ready(function () {
-
-    var synth = window.speechSynthesis;
 
     //TO SPEAK
     function speaker(msg) {
         synth.speak(msg);
     }
 
-    // TO PAUSE
-    function pauseSpeaker() {
-        synth.pause();
-    }
-    // TO RESUME
-    function resumeSpeaker() {
-        synth.resume();
-    }
-    //TO STOP
-    function stopSpeaker() {
-        synth.cancel();
-    }
-
-    function voiceChange(){
-
-        var voices = synth.getVoices();
-
-        for(i = 0; i <voices.length; i++){
-            console.log(voices[i].voiceURI);
-            console.log(voices[i].name);
-        }
-
-    }
-
-    voiceChange();
-
-
     document.onmouseup = function () {
 
         var target = getSelectionText();
         var inputmsg = new SpeechSynthesisUtterance(target);
 
-        inputmsg.pitch = 2.0;
-        inputmsg.rate = 2.0;
-        inputmsg.volume = 0.3;
+        inputmsg.pitch = pitch;
+        inputmsg.rate = rate;
+        inputmsg.volume = volume;
 
         console.log("Input msg: " + inputmsg);
 
@@ -60,6 +47,8 @@ $(document).ready(function () {
         } else {
             console.log("input missing");
         }
+
+        console.log(isSpeaking);
 
     };
 
@@ -82,14 +71,17 @@ $(document).ready(function () {
 
             pauseSpeaker();
             isSpeaking = false;
+            console.log(isSpeaking);
         } else if (e.key === 'Shift') {
 
             resumeSpeaker();
             isSpeaking = true;
-        }else if(e.key === 'Alt'){
+            console.log(isSpeaking);
+        } else if (e.key === 'Alt') {
 
             stopSpeaker();
             isSpeaking = false;
+            console.log(isSpeaking);
         }
     }); // END OF FULLSCREEN ALERT 
 
@@ -110,5 +102,46 @@ function getSelectionText() {
     }
     return text;
 }
+
+function testdata(data) {
+
+    switch (String(data.data)) {
+
+        case "Pause": {
+            synth.pause();
+            break;
+        }
+
+        case "Stop": {
+            synth.cancel();
+            break;
+        }
+
+        case "Play": {
+            synth.resume();
+            break;
+        }
+
+    }
+
+    if (data.data[0] != null) {
+        if (!String(data.data).localeCompare("Stop") || !String(data.data).localeCompare("Play") || !String(data.data).localeCompare("Pause")) {
+
+        } else {
+            volume = (data.data[0] / 100).toFixed(1);
+
+            pitch = parseFloat(data.data[1]).toFixed(1);
+
+            rate = parseFloat(data.data[2]).toFixed(1);
+        }
+
+    }
+
+    // console.log(data);
+    // console.log(volume + " " + pitch + " " + rate);
+
+}
+
+browser.runtime.onMessage.addListener(testdata);
 
 
