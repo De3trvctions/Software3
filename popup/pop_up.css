@@ -1,6 +1,15 @@
 
-.b, .volume {
-  display: inline
+.title{
+  text-align: center;
+  border: 3px dotted red;
+}
+
+#header{
+  font-size: 22px;
+}
+
+.b, .slider, .beast, p {
+  display: inline-block;
 }
 
 hr {
@@ -11,3 +20,43 @@ hr {
     margin: 1em 0;
     padding: 0;
 }
+
+.button{
+  
+  padding: 10px 30px;
+  margin: 5px 0;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+
+#saveBtn{
+  background-color: #41f06f;
+}
+
+#yellow{
+  
+  background-color: #41f06f;
+}
+
+#brown{
+  
+  background-color: #41cdf0;
+}
+
+#blue{
+  
+  background-color: #f70000;
+  
+}
+
+#blue, #saveBtn{
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
+}
+
+
+
+
+
