@@ -143,5 +143,3 @@ function testdata(data) {
 }
 
 browser.runtime.onMessage.addListener(testdata);
-
-

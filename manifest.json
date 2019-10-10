@@ -1,7 +1,8 @@
+<<<<<<< master
 {
   "manifest_version": 2,
-  "name": "On-hover speech synthesizer",
-  "description": "This extension allows the user to speak the mouse hovered text on the webpage",
+  "name": "Highlight text  synthesizer",
+  "description": "This extension allows the user to highlight text on the webpage",
   "version": "0.1",
   "icons": {
     "128": "images/128icon.png",
