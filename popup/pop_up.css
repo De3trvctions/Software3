@@ -1,23 +1,56 @@
-body {
-  width: 250px;
-  background-color: #fafafa
+.title{
+  text-align: center;
+  border: 3px dotted red;
 }
 
-.copy-item {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  font-style: italic;
+#header{
+  font-size: 22px;
 }
 
-#container div:nth-child(odd) {
-  background: #00ff0009;
+.b, .slider, .beast, p {
+  display: inline-block;
 }
 
-#status {
-  color: #777;
-  font-size: 80%;
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
 }
 
-textarea {
-  width: 98%;
+.button{
+  
+  padding: 10px 30px;
+  margin: 5px 0;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+
+#saveBtn{
+  background-color: #41f06f;
+}
+
+#yellow{
+  
+  background-color: #41f06f;
+}
+
+#brown{
+  
+  background-color: #41cdf0;
+}
+
+#blue{
+  
+  background-color: #f70000;
+  
+}
+
+#blue, #saveBtn{
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
 }
