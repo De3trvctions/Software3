@@ -105,6 +105,8 @@ function getSelectionText() {
 
 function testdata(data) {
 
+    console.log(data);
+
     switch (String(data.data)) {
 
         case "Pause": {
@@ -143,3 +145,5 @@ function testdata(data) {
 }
 
 browser.runtime.onMessage.addListener(testdata);
+
+

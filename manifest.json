@@ -1,16 +1,15 @@
-<<<<<<< master
 {
   "manifest_version": 2,
-  "name": "Highlight text  synthesizer",
-  "description": "This extension allows the user to highlight text on the webpage",
+  "name": "On-hover speech synthesizer",
+  "description": "This extension allows the user to speak the mouse hovered text on the webpage",
   "version": "0.1",
   "icons": {
-    "128": "images/128icon.png",
-    "48": "images/48icon.png",
-    "16": "images/16icon.png"
+    "128": "images/icon128.png",
+    "48": "images/icon48.png",
+    "16": "images/icon16.png"
   },
   "browser_action": {
-      "default_icon": "images/48icon.png",
+      "default_icon": "images/icon48.png",
       "default_title": "Hover t2s",
       "default_popup": "popup/pop_up.html"
   },
