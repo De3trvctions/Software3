@@ -8,7 +8,7 @@ function listenForClicks() {
 
             browser.tabs.sendMessage(tabs[0].id, {
                 command: "data",
-                data: result
+                data: "Pause"
             });
         }
 
@@ -33,7 +33,7 @@ function listenForClicks() {
 
             browser.tabs.sendMessage(tabs[0].id, {
                 command: "data",
-                data: result
+                data: "Stop"
             });
         }
 
@@ -58,7 +58,7 @@ function listenForClicks() {
 
             browser.tabs.sendMessage(tabs[0].id, {
                 command: "data",
-                data: result
+                data: "Play"
             });
         }
 
